@@ -125,6 +125,34 @@ app.get('/viewcount', function(req,res, next){
 	res.send('You viewed this page' + req.session.views['/viewcount'] + 'times');
 });
 
+var fs = require('fs');
+
+app.get('/readfile', function(req, res , next){
+	fs.readFile('./public/randomfile.txt',
+		function(err,data){
+			if(err){
+				return console.error(err);
+			}
+			res.send("the file : " + data.toString());
+		});
+});
+
+app.get('/writefile', function(req,res,next){
+	fs.writeFile('./public/randomfile2.txt', 'More random text' , function(err){
+		if(err){
+			return console.error(err);
+		}
+	});
+
+	fs.readFile('./public/randomfile2.txt', function(err,data){
+		if(err){
+			return console.error(err);
+		}
+		res.send("The file : " + data.toString());
+	});
+});
+
+
 app.use(function(req,res){
 	res.type('text/html');
 	res.status(404);
