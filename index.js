@@ -83,6 +83,22 @@ app.post('/file-upload/:year/:month', function(req,res){
 	});
 });
 
+app.get('/cookie',function(req,res){
+	// username is key here and Lovepreet Singh is value
+	res.cookie('username', 'Lovepreet Singh', {expire: new Date() + 9999}).send('username has the value of Lovepreet Singh');
+
+});
+
+app.get('/listcookies', function(req,res){
+	console.log("Cookies : " , req.cookies);
+	res.send('Look in the console for cookies');
+});
+
+app.get('/deletecookie', function(req, res){
+	res.clearCookie('username');
+	res.send('username Cookie Deleted');
+})
+
 app.use(function(req,res){
 	res.type('text/html');
 	res.status(404);
