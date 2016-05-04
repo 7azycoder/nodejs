@@ -24,6 +24,10 @@ app.get('/', function(req, res){  // remeber path is case insensitive
 	res.render('home');   // it will render home.handlebars in  main.handlebars
 });
 
+app.get('/home', function(req, res){  // remeber path is case insensitive
+	res.render('home');   // it will render home.handlebars in  main.handlebars
+});
+
 
 
 // middleware
