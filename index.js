@@ -99,6 +99,32 @@ app.get('/deletecookie', function(req, res){
 	res.send('username Cookie Deleted');
 })
 
+var session = require('express-session');
+
+var parseurl = require('parseurl');
+app.use(session({
+	resave :  false ,//means we want to store to session store only if a change is made
+	saveUninitialized : true,
+	secret : credentials.cookieSecret,
+}));
+
+//middleware
+app.use(function(req, res , next){
+	var views = req.session.views;
+
+	if(!views){
+		views = req.session.views = {};
+	}
+	var pathname =  parseurl(req).pathname;
+
+	views[pathname] = (views[pathname] || 0) + 1;
+	next();
+});
+
+app.get('/viewcount', function(req,res, next){
+	res.send('You viewed this page' + req.session.views['/viewcount'] + 'times');
+});
+
 app.use(function(req,res){
 	res.type('text/html');
 	res.status(404);
